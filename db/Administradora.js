@@ -303,5 +303,8 @@ router.get("/mostrarEmpleados", (req, res) => {
     })
 });
 
+router.post("/cambiarDepartamentoLider")
+router.post("/cambiarDepartamentoEmpleado")
+
 
 module.exports = router;
