@@ -303,8 +303,72 @@ router.get("/mostrarEmpleados", (req, res) => {
     })
 });
 
-router.post("/cambiarDepartamentoLider")
-router.post("/cambiarDepartamentoEmpleado")
+router.post("/cambiarDepartamentoLider",(req,res)=>{
+  var nombre=req.param("nombre");
+  var nombreDepartamento=req.param("nombreDepartamento");
+  const ModeloDepartamento = require("./modelo/Departamento");
+  const ModeloLider=require("./modelo/Lider");
+  ModeloDepartamento.find({nombre:nombreDepartamento})
+    .then(respuesta => {
+      console.log(respuesta);
+      ModeloLider.findOneAndUpdate(
+        //dato a buscar
+        {
+          nombre: nombre
+        }, 
+        //dato que se va a actualizar
+        {
+          idDepartamento: respuesta[0].id
+        },
+        {
+          new: true,
+          runValidators: true
+        })
+      .then(response => {
+        res.send("1");
+      })
+      .catch(err => {
+        res.send("0");
+      })
+      //res.json(respuesta)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+});
+
+router.post("/cambiarDepartamentoEmpleado",(req,res)=>{
+  var nombre=req.param("nombre");
+  var nombreDepartamento=req.param("nombreDepartamento");
+  const ModeloEmpleado=require("./modelo/Empleado");
+  const ModeloDepartamento = require("./modelo/Departamento");
+  ModeloDepartamento.find({nombre:nombreDepartamento})
+    .then(respuesta => {
+      console.log(respuesta)
+      ModeloEmpleado.findOneAndUpdate(
+        //dato a buscar
+        {
+          nombre: nombre
+        }, 
+        //dato que se va a actualizar
+        {
+          idDepartamento: respuesta[0].id
+        },
+        {
+          new: true,
+          runValidators: true
+        })
+      .then(response => {
+        res.send("1");
+      })
+      .catch(err => {
+        res.send("0");
+      })
+    })
+    .catch(err => {
+      console.error(err)
+    })
+});
 
 
 module.exports = router;

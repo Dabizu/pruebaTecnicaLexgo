@@ -47,6 +47,7 @@ app.controller('empresaRegistrar', function ($scope, $http) {
             .then(response => response.text())
             .then(data => {
                 if (data === "1") {
+                    moostrarLideres($scope, $http);
                     alert("se a registrado un lider")
                 } else {
                     alert("no se registro");
@@ -64,6 +65,7 @@ app.controller('empresaRegistrar', function ($scope, $http) {
             .then(response => response.text())
             .then(data => {
                 if (data === "1") {
+                    moostrarEmpleados($scope, $http);
                     alert("se a registrado un empleado")
                 } else {
                     alert("no se registro");
@@ -141,6 +143,35 @@ app.controller('empresaRegistrar', function ($scope, $http) {
                         alert("se elimino con exito")
                     }else{
                         alert("no se a eliminado")
+                    }
+                });
+            }
+        }
+
+        $scope.actualizacionLider=function(){
+            if($scope.updateLider!=undefined && $scope.seleccionDeparamentos!=undefined){
+                $http.post("/cambiarDepartamentoLider?nombre=" + $scope.updateLider+"&nombreDepartamento="+$scope.seleccionDeparamentos)
+                .then(function (response) {
+                    console.log(response)
+                    if(response.data!="0"){
+                        moostrarEmpleados($scope, $http)
+                        alert("se actualizo con exito")
+                    }else{
+                        alert("no se a actualizado")
+                    }
+                });
+            }
+        }
+        $scope.actualizacionEmpleado=function(){
+            if($scope.updateEmpleados!=undefined && $scope.seleccionDeparamento!=undefined){
+                $http.post("/cambiarDepartamentoEmpleado?nombre=" + $scope.updateEmpleados+"&nombreDepartamento="+$scope.seleccionDeparamento)
+                .then(function (response) {
+                    console.log(response)
+                    if(response.data!="0"){
+                        moostrarEmpleados($scope, $http)
+                        alert("se actualizo con exito")
+                    }else{
+                        alert("no se a actualizado")
                     }
                 });
             }

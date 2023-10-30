@@ -94,7 +94,33 @@
                             </div>
                             <!--7-->
                             <div class="col">
-                                
+                                <p>actializacion de lider</p>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Nombre Lider</span>
+                                    <select class="form-select form-select-sm" aria-label="Small select example"
+                                        ng-model="updateLider" ng-options="x for x in todosLideres"></select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Departamento</span>
+                                    <select class="form-select form-select-sm" aria-label="Small select example"
+                                        ng-model="seleccionDeparamentos" ng-options="x for x in departamentos"></select>
+                                </div>
+                                <button type="button" class="btn btn-secondary" ng-click="actualizacionLider()">actualizar lider</button>
+                            </div>
+                            <!--8-->
+                            <div class="col" style="background-color: rgb(157, 255, 0);">
+                                <p>actializacion de empleado</p>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Empleado</span>
+                                    <select class="form-select form-select-sm" aria-label="Small select example"
+                                        ng-model="updateEmpleados" ng-options="x for x in todosEmpleados"></select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Departamento</span>
+                                    <select class="form-select form-select-sm" aria-label="Small select example"
+                                        ng-model="seleccionDeparamento" ng-options="x for x in departamentos"></select>
+                                </div>
+                                <button type="button" class="btn btn-secondary" ng-click="actualizacionEmpleado()">actualizar empleado</button>
                             </div>
 
                         </div>
