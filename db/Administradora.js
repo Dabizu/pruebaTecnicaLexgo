@@ -116,10 +116,32 @@ router.post("/insertarDepartamento", (req, res) => {
   //res.send("guardado");
 })
 
-router.get("/mostrarDepartamento", (req, res) => {
+router.get("/buscarDepartamento", (req, res) => {
+  var nombre = req.param("nombre");
+  const ModeloEmpresa = require("./modelo/Empresa");
+  ModeloEmpresa.find({ nombre: nombre })
+    .then(respuesta => {
+      console.log(respuesta)
+      const ModeloDepartamento = require("./modelo/Departamento");
+      ModeloDepartamento.find({ idEmpresa: respuesta[0].id })
+        .then(respuesta2 => {
+          console.log(respuesta2)
+          res.json(respuesta2)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    })
+    .catch(err => {
+      console.error(err)
+    })
   var id = req.param("id");
+
+});
+
+router.get("/mostrarDepartamento", (req, res) => {
   const ModeloDepartamento = require("./modelo/Departamento");
-  ModeloDepartamento.find({ idEmpresa: id })
+  ModeloDepartamento.find({})
     .then(respuesta => {
       console.log(respuesta)
       res.json(respuesta)
@@ -130,16 +152,16 @@ router.get("/mostrarDepartamento", (req, res) => {
 });
 
 router.post("/insertarLider", (req, res) => {
-  var nombre=req.param("nombre");
+  var nombre = req.param("nombre");
+  var nombreDepartamento = req.param("nombreDepartamento")
   const ModeloDepartamento = require("./modelo/Departamento");
   ModeloDepartamento
     .find({
       nombre: nombreDepartamento
     })
     .then(respuesta => {
-      console.log(respuesta[0].id)
+      //console.log(respuesta[0].id)
       //res.send(respuesta)
-
       const ModeloLider = require("./modelo/Lider");
       const modeloLider = new ModeloLider({ nombre: nombre, idDepartamento: respuesta[0].id });
       modeloLider.save()
@@ -151,11 +173,66 @@ router.post("/insertarLider", (req, res) => {
           console.error(err)
           res.send("0");
         })
+    })
+    .catch(err => {
+      console.error(err)
+    })
+});
 
+router.get("/buscarLider", (req, res) => {
+  var nombre = req.param("nombre");
+  const ModeloDepartamento = require("./modelo/Departamento");
+  ModeloDepartamento.find({ nombre: nombre })
+    .then(respuesta => {
+      console.log(respuesta)
+      const ModeloLider = require("./modelo/Lider");
+      ModeloLider.find({idDepartamento: respuesta[0].id})
+        .then(respuestax => {
+          console.log(respuestax)
+          res.json(respuestax)
+        })
+        .catch(err => {
+          console.error(err)
+        });
+    })
+    .catch(err => {
+      console.error(err)
+    })
+})
 
-      /*
-      const modeloEmpresa = new ModeloEmpresa({ nombre: nombre, id: respuesta.length });
-      modeloEmpresa.save()
+router.get("/buscarEmpleado", (req, res) => {
+  var nombre = req.param("nombre");
+  const ModeloDepartamento = require("./modelo/Departamento");
+  ModeloDepartamento.find({ nombre: nombre })
+    .then(respuesta => {
+      console.log(respuesta)
+      const ModeloEmpleado = require("./modelo/Empleado");
+      ModeloEmpleado.find({idDepartamento: respuesta[0].id})
+        .then(respuestax => {
+          console.log(respuestax)
+          res.json(respuestax)
+        })
+        .catch(err => {
+          console.error(err)
+        });
+    })
+    .catch(err => {
+      console.error(err)
+    })
+})
+
+router.post("/insertarEmpleado", (req, res) => {
+  var nombre = req.param("nombre");
+  var nombreDepartamento = req.param("nombreDepartamento");
+  const ModeloDepartamento = require("./modelo/Departamento");
+  ModeloDepartamento
+    .find({
+      nombre: nombreDepartamento
+    })
+    .then(respuesta => {
+      const ModeloEmpleado = require("./modelo/Empleado");
+      const modeloLider = new ModeloEmpleado({ nombre: nombre, idDepartamento: respuesta[0].id });
+      modeloLider.save()
         .then(respuesta => {
           console.log(respuesta)
           res.send("1");
@@ -163,13 +240,68 @@ router.post("/insertarLider", (req, res) => {
         .catch(err => {
           console.error(err)
           res.send("0");
-        })*/
-
+        })
     })
     .catch(err => {
       console.error(err)
     })
-})
+});
+
+router.post("/eliminarLider", (req, res) => {
+  var nombre = req.param("nombre");
+  const ModeloLider = require("./modelo/Lider");
+  ModeloLider.findOneAndRemove({
+    nombre: nombre
+  })
+    .then(response => {
+      console.log(response)
+      res.send("1");
+    })
+    .catch(err => {
+      console.error(err)
+      res.send("0");
+    })
+});
+
+router.post("/eliminarEmpleado", (req, res) => {
+  var nombre = req.param("nombre");
+  const ModeloEmpleado = require("./modelo/Empleado");
+  ModeloEmpleado.findOneAndRemove({
+    nombre: nombre
+  })
+    .then(response => {
+      console.log(response)
+      res.send("1");
+    })
+    .catch(err => {
+      console.error(err)
+      res.send("0");
+    })
+});
+
+router.get("/mostrarLideres", (req, res) => {
+  const ModeloLider = require("./modelo/Lider");
+  ModeloLider.find()
+    .then(respuesta => {
+      console.log(respuesta)
+      res.json(respuesta)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+});
+
+router.get("/mostrarEmpleados", (req, res) => {
+  const ModeloEmpleado = require("./modelo/Empleado");
+  ModeloEmpleado.find()
+    .then(respuesta => {
+      console.log(respuesta)
+      res.json(respuesta)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+});
 
 
 module.exports = router;
