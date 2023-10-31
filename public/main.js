@@ -154,7 +154,7 @@ app.controller('empresaRegistrar', function ($scope, $http) {
                 .then(function (response) {
                     console.log(response)
                     if(response.data!="0"){
-                        moostrarEmpleados($scope, $http)
+                        moostrarLideres($scope, $http);
                         alert("se actualizo con exito")
                     }else{
                         alert("no se a actualizado")
